@@ -20,10 +20,13 @@ require "sinatra/reloader" if development?
 
 require 'erb'
 
+#AUTHENTICATION
+require 'bcrypt'
+
 # ///Version 2///
 if development?
-	require "pry" 
-	require "pry-nav" 
+  require "pry"
+  require "pry-nav"
 end
 
 # Some helper constants for path-centric logic

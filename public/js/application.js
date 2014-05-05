@@ -1,7 +1,7 @@
 $(document).ready(function() {
   view = new View()
-  controller = new Contoller(view)
-  controller.bindEventListners()
+  controller = new Controller(view)
+  // controller.bindEventListners()
 });
 
 
