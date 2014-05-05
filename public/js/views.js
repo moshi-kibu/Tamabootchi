@@ -1,0 +1,7 @@
+function View(){
+  
+}
+
+View.prototype = {
+
+}
