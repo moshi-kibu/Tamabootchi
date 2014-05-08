@@ -1,6 +1,6 @@
 function Controller(view){
 	this.view = view
-	this.currentHour = 0;
+	this.currentHour = 0; //inconsistent semi-colons
 	this.sleepTimerId = 0
 	this.codeTimerId = 0
 	this.timer = 5000
@@ -8,11 +8,26 @@ function Controller(view){
 
 Controller.prototype = {
 	bindEventListeners: function() {
-		this.view.actionsPanel.on('click', this.checkEvent.bind(this));
+		this.view.actionsPanel.on('click', this.checkEvent.bind(this)); //woah wtf man just use jquery's .on('click', childId)
 		this.view.signUpLink.on('click', this.resetLandingPanel.bind(this));
+
+    /*
+      Split the actionsPanel bindListener into two listeners. One for each button.
+      The syntax for event delegation in jquery works like this:
+      this.view.parentElement.on('click', 'childElementSelector', callback)
+
+      Then, inside the callback, you do not have to check if value === "Sleep" or "Code".
+      You would do that in the childElementSelector instead. (you might also give those buttons a class or id to select on as opposed to the value of the value attribute)
+      (That leaves you the flexibility to change your button names without breaking the listeners.)
+
+      Currently, anywhere I click on the Actions Panel will call your callback, and execute that conditional logic! This is suboptimal.
+    */
 	},
 
 	checkEvent: function(event) {
+    console.log(this)
+    console.log(event.target)
+
 		event.preventDefault();
 		if (event.target.value === "Sleep") {
 			this.setSleepTime();
@@ -43,8 +58,8 @@ Controller.prototype = {
 	},
 
 	updateSleep: function() {
-   var hoursToRun = parseInt(this.view.sleepTime()) 
-   
+   var hoursToRun = parseInt(this.view.sleepTime())
+
 	   if (this.currentHour >= hoursToRun) {
 	   		this.clearTimer("sleep")
 	   } else {
@@ -63,7 +78,7 @@ Controller.prototype = {
 	},
 
 	updateCode: function() {
-   var hoursToRun = parseInt(this.view.codeTime()) 
+   var hoursToRun = parseInt(this.view.codeTime())
 	   if (this.currentHour >= hoursToRun) {
 	   		this.clearTimer("code")
 	   } else {
@@ -81,7 +96,7 @@ Controller.prototype = {
   		this.sleepTimerId = 0;
   	} else if (timerType === "code") {
   		clearInterval(this.codeTimerId)
-  		this.codeTimerId = 0;		
+  		this.codeTimerId = 0;
   	}
 
   },
