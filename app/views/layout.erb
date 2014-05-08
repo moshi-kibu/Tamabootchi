@@ -43,7 +43,11 @@
 <body>
 	<div class="container">
 		<div id="header" class="sixteen columns">
-			<h1 class="remove-bottom" style="margin-top: 40px">Tama-boot-chi</h1>
+		<% if @user %>
+			<h1 class="remove-bottom" style="margin-top: 20px"><%= @user.username%>'s Tama-boot-chi</h1>
+		<% else %>
+			<h1 class="remove-bottom" style="margin-top: 20px">Tama-boot-chi</h1>
+		<% end %>
 			<!-- <h5>Ruby sings the Classics</h5> -->
 			<hr />
 		</div>

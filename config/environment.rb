@@ -10,7 +10,7 @@ require 'rubygems'
 
 require 'uri'
 require 'pathname'
-
+# require 'dotenv'
 require 'pg'
 require 'active_record'
 require 'logger'
@@ -22,6 +22,9 @@ require 'erb'
 
 #AUTHENTICATION
 require 'bcrypt'
+
+# Call me maybe?
+require 'twilio-ruby'
 
 # ///Version 2///
 if development?

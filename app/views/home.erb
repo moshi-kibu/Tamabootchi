@@ -1,39 +1,57 @@
-<div class = "4 columns" id = "sleep_selector">
-	<form>
-		<h4>How long should your tamabootchi sleep?</h4>
-		<p>
-		<select name="sleep time">
-		<option value="1">1 hour</option>
-		<option value="2">2 hours</option>
-		<option value="3">3 hours</option>
-		<option value="4">4 hours</option>
-		<option value="5">5 hours</option>
-		<option value="6">6 hours</option>
-		<option value="7">7 hours</option>
-		<option value="8">8 hours</option>
-		<option value="9">9 hours</option>
-		<option value="10">10 hours</option>
-		</select>
-		<input type="submit" value="Sleep">
-	</form>
+<div class = "12 columns offset-by-two" id = 'status_bar'>
+	<ul>
+		<li><h4>Code Level: <span id = 'insert_code'><%= @user.tamabootchi.code_level %></span>/ 100</h4></li>
+		<li><h4>Alertness: <span id = 'insert_alertness'><%= @user.tamabootchi.code_level %></span> / 10</h4></li>
+		<li><h4>Currently: <span id = 'insert_status'>Hanging out</span></h4></li>
+	</ul>
 </div>
 
-<div class = "4 columns" id = "code_selector">
-	<form>
-		<h4>How long should your tamabootchi code?</h4>
-		<p>
-		<select name="code time">
-		<option value="1">1 hour</option>
-		<option value="2">2 hours</option>
-		<option value="3">3 hours</option>
-		<option value="4">4 hours</option>
-		<option value="5">5 hours</option>
-		<option value="6">6 hours</option>
-		<option value="7">7 hours</option>
-		<option value="8">8 hours</option>
-		<option value="9">9 hours</option>
-		<option value="10">10 hours</option>
-		</select>
-		<input type="submit" value="Code">
+<div class = "7 columns offset-by-one" id = "img_container">
+	<%= erb :_img_happy %>
+</div>
+
+<div class = "4 columns" id = "actions_panel">
+	<div id = "sleep_selector">
+		<form>
+			<h4>How long should your tama-boot-chi sleep?</h4>
+			<select name="sleep" id = "sleep_time">
+			<option value="1">1 hour</option>
+			<option value="2">2 hours</option>
+			<option value="3">3 hours</option>
+			<option value="4">4 hours</option>
+			<option value="5">5 hours</option>
+			<option value="6">6 hours</option>
+			<option value="7">7 hours</option>
+			<option value="8">8 hours</option>
+			<option value="9">9 hours</option>
+			<option value="10">10 hours</option>
+			</select>
+			<input type="submit" value="Sleep">
+		</form>
+	</div>
+
+	<div id = "code_selector">
+		<form class="remove-bottom">
+			<h4>How long should your tama-boot-chi code?</h4>
+			<select name="code" id = "code_time">
+			<option value="1">1 hour</option>
+			<option value="2">2 hours</option>
+			<option value="3">3 hours</option>
+			<option value="4">4 hours</option>
+			<option value="5">5 hours</option>
+			<option value="6">6 hours</option>
+			<option value="7">7 hours</option>
+			<option value="8">8 hours</option>
+			<option value="9">9 hours</option>
+			<option value="10">10 hours</option>
+			</select>
+			<input type="submit" value="Code">
+		</form>
+	</div>
+</div>
+
+<div>
+	<form action = "/users/logout" method = "post">
+		<input class = "two columns" type="submit" value="Logout" id = "logout">
 	</form>
 </div>
