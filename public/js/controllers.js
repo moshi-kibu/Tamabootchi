@@ -1,6 +1,6 @@
 function Controller(view){
 	this.view = view
-	this.currentHour = 0;
+	this.currentHour = 0
 	this.sleepTimerId = 0
 	this.codeTimerId = 0
 	this.feedTimerId = 0
