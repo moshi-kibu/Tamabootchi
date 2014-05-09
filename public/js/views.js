@@ -20,6 +20,10 @@ View.prototype = {
 		return $('#code_time').val()
 	},
 
+  foodKind: function() {
+      return $('#food_kind').val()
+    },
+
 	updateCodeLevel: function(result){
 		$('#insert_code').text(result)
 	},
@@ -32,14 +36,22 @@ View.prototype = {
   		$('#insert_alertness').text('10')
   	}
   },
+
+  updateFullnessLevel: function(result){
+    if ($('#insert_fullness').text() <= 10) {
+      $('#insert_fullness').text(result)
+    }
+    else {
+      $('#insert_fullness').text('10')
+    }
+  },
   
   updateCurrentAction: function(result){
   	$('#insert_status').text(result)
   },
   
   updatePicture: function(result){
-		picture = document.querySelector('.picture');
-		picture.innerHTML = '';
-		picture.innerHTML = result
+		picture = $('.picture');
+		picture.replaceWith(result)
   }
 }

@@ -3,6 +3,7 @@ function Controller(view){
 	this.currentHour = 0;
 	this.sleepTimerId = 0
 	this.codeTimerId = 0
+	this.feedTimerId = 0
 	this.timer = 5000
 }
 
@@ -18,6 +19,8 @@ Controller.prototype = {
 			this.setSleepTime();
 		} else if (event.target.value === "Code") {
 			this.setCodeTime();
+		} else if (event.target.value === "Feed") {
+			this.setFeedTime();
 		}
 	},
 
@@ -33,14 +36,34 @@ Controller.prototype = {
 		}.bind(this))
 	},
 
-
-	setSleepTime: function() {
-		if (this.codeTimerId === 0){
-			this.sleepTimerId = setInterval(this.updateSleep.bind(this), this.timer);
-			} else { alert('You cannot sleep and code at the same time!')
+	setFeedTime: function() {
+		if (this.codeTimerId === 0 && this.sleepTimerId == 0){
+			this.feedTimerId = setInterval(this.updateFeed.bind(this), this.timer);
+			} else { alert('You cannot do two things at the same time!')
    }
 	// 3600000
 	},
+
+	setSleepTime: function() {
+		if (this.codeTimerId === 0 && this.feedTimerId == 0){
+			this.sleepTimerId = setInterval(this.updateSleep.bind(this), this.timer);
+			} else { alert('You cannot do two things at the same time!')
+   }
+	// 3600000
+	},
+
+	updateFeed: function() {
+   var hoursToRun = 1
+   nutrition = parseInt(this.view.foodKind()) 
+   
+	   if (this.currentHour >= hoursToRun) {
+	   		this.clearTimer("feed")
+	   } else {
+	      this.currentHour = this.currentHour + 1;
+	      this.updateTamabootchiStats("feed",nutrition)
+    }
+  },
+
 
 	updateSleep: function() {
    var hoursToRun = parseInt(this.view.sleepTime()) 
@@ -49,16 +72,15 @@ Controller.prototype = {
 	   		this.clearTimer("sleep")
 	   } else {
 	      this.currentHour = this.currentHour + 1;
-	      this.updateTamabootchiStats("sleep")
-	      // this.view.renderTamabootchiStats(sleep) #TODO!
+	      this.updateTamabootchiStats("sleep",0)
     }
 
   },
 
 	setCodeTime: function() {
-		if (this.sleepTimerId === 0){
+		if (this.sleepTimerId === 0 && this.feedTimerId == 0){
 			this.codeTimerId = setInterval(this.updateCode.bind(this), this.timer);
-		} else { alert('You cannot sleep and code at the same time!')
+		} else { alert('You cannot do two things at the same time!')
    }
 	},
 
@@ -68,7 +90,7 @@ Controller.prototype = {
 	   		this.clearTimer("code")
 	   } else {
 	      this.currentHour = this.currentHour + 1;
-	      this.updateTamabootchiStats("code")
+	      this.updateTamabootchiStats("code",0)
     }
   },
 
@@ -82,50 +104,56 @@ Controller.prototype = {
   	} else if (timerType === "code") {
   		clearInterval(this.codeTimerId)
   		this.codeTimerId = 0;		
-  	}
-
+  	} else if (timerType === "feed") {
+  		clearInterval(this.feedTimerId)
+  		this.feedTimerId = 0;	
+  	} 
+  	this.view.updateCurrentAction(this.checkCurrentAction())
   },
 
-  getStats: function() {
-  	updateStats = $.ajax ({
-  		url: '/users',
-  		type: 'GET',
-  	})
-
-  	updateStats.done(function(results) {
-  		results = JSON.parse(results)
-  		this.view.updateCodeLevel(results["code_level"])
-  		this.view.updateAlertnessLevel(results["alertness"])
-  		this.view.updateCurrentAction(this.checkCurrentAction())
-  		this.view.updatePicture(results["erb"])
-  	}.bind(this))
-  },
-
-  checkCurrentAction: function() {
-  	if (this.sleepTimerId === 0 && this.codeTimerId === 0) {
-  		return "Hanging out"
-  	} else if (this.sleepTimerId === 0){
-  		return "Coding"
-  	} else {
-  		return "Sleeping"
-  	}
-  },
-
-  updateTamabootchiStats: function(kind) {
+  updateTamabootchiStats: function(kind, nutrition){ 	
   	updateRequest = $.ajax({
   		url: '/users/add',
   		type: 'PUT',
-  		data: {kind: kind},
+  		data: {kind: kind, nutrition: nutrition},
   	})
 
   	updateRequest.done(function(results) {
   		this.getStats();
   		results = JSON.parse(results)
-  		console.log(results)
-  		if (results["alertness"] < -0.1) {
+  		if (results["alertness"] < 0 && results["fullness"] < 0) {
   			this.clearTimer("code");
   			this.getStats();
   		}
   	}.bind(this))
+  },
+
+  getStats: function() {
+		updateStats = $.ajax ({
+			url: '/users',
+			type: 'PUT',
+		})
+
+		updateStats.done(function(results) {
+			console.log("update stats:" + results)
+			results = JSON.parse(results)
+			this.view.updateCodeLevel(results["code_level"])
+			this.view.updateAlertnessLevel(results["alertness"])
+			this.view.updateFullnessLevel(results["fullness"])
+			this.view.updateCurrentAction(this.checkCurrentAction())
+			this.view.updatePicture(results["erb"])
+		}.bind(this))
+  },
+
+  checkCurrentAction: function() {
+  	if (this.sleepTimerId === 0 && this.codeTimerId === 0 && this.feedTimerId == 0) {
+  		return "Hanging out"
+  	} else if (this.sleepTimerId === 0 && this.feedTimerId === 0){
+  		return "Coding"
+  	} else if (this.codeTimerId === 0 && this.feedTimerId === 0){
+  		return "Sleeping"
+  	} else if (this.codeTimerId === 0 && this.sleepTimerId === 0){
+  		return "Eating"
+  	}
   },
 }
