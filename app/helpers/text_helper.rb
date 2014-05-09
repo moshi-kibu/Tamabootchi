@@ -40,34 +40,15 @@ helpers do
 		end
 	end
 
-	def enforce_limits 
-		if @user.tamabootchi.fullness > 10
-			@user.tamabootchi.fullness = 10
+
+	def send_texts
+		if @user.tamabootchi.alertness <= 1
+			alert_me("alertness")
 		end
 
-		if @user.tamabootchi.fullness < 0
-			@user.tamabootchi.fullness = 0
+		if @user.tamabootchi.fullness <= 2
+			alert_me("fullness")
 		end
-
-		if @user.tamabootchi.alertness > 10
-			@user.tamabootchi.alertness = 10
-		end
-
-		if @user.tamabootchi.alertness < 0
-			@user.tamabootchi.alertness = 0
-		end
-	end
-
-	def image_for_mood
-		image = nil
-		if @user.tamabootchi.alertness > 2 && @user.tamabootchi.fullness > 2
-			image = :_img_happy
-		elsif (@user.tamabootchi.alertness < 2 && @user.tamabootchi.fullness < 2) || (@user.tamabootchi.alertness >= 2 && @user.tamabootchi.fullness <= 2)
-			image = :_img_hungry
-		elsif @user.tamabootchi.alertness <= 2 && @user.tamabootchi.fullness >= 2
-			image = :_img_sleepy
-		end
-		return image
 	end
 
 end
