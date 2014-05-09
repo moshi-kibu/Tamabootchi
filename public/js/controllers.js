@@ -4,7 +4,7 @@ function Controller(view){
 	this.sleepTimerId = 0
 	this.codeTimerId = 0
 	this.feedTimerId = 0
-	this.timer = 5000
+	this.timer = 2000
 }
 
 Controller.prototype = {
@@ -41,7 +41,6 @@ Controller.prototype = {
 			this.feedTimerId = setInterval(this.updateFeed.bind(this), this.timer);
 			} else { alert('You cannot do two things at the same time!')
    }
-	// 3600000
 	},
 
 	setSleepTime: function() {
@@ -49,7 +48,6 @@ Controller.prototype = {
 			this.sleepTimerId = setInterval(this.updateSleep.bind(this), this.timer);
 			} else { alert('You cannot do two things at the same time!')
    }
-	// 3600000
 	},
 
 	updateFeed: function() {
@@ -96,7 +94,6 @@ Controller.prototype = {
 
   clearTimer: function(timerType) {
   	console.log("stopping timer " + timerType)
-
   	this.currentHour = 0
   	if (timerType === "sleep") {
   		clearInterval(this.sleepTimerId)

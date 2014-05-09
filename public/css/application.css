@@ -29,9 +29,10 @@ li, #actions_panel, .picture{
 }
 
 li {
+	margin-left: 0px;
 	float: left;
-	margin-right: 50px;
-	padding: 10px;
+	margin-right: 15px;
+	padding: 5px;
 	margin-bottom: 20px;
 }
 
@@ -41,7 +42,8 @@ li {
 }
 
 #logout {
-	margin-left: 350px;
+	margin-top: 20px;
+	margin-left: 800px;
 }
 
 #home_pic {
