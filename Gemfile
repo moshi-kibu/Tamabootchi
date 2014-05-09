@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 # ruby '1.9.3'
+# Fix jwt dependency
+gem 'jwt', '0.1.11'
+
 # PostgreSQL driver
 gem 'pg'
 

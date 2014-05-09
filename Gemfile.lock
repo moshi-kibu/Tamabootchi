@@ -36,7 +36,8 @@ GEM
     faker (1.1.2)
       i18n (~> 0.5)
     i18n (0.6.1)
-    jwt (0.1.12)
+    jwt (0.1.11)
+      multi_json (>= 1.5)
     method_source (0.8.2)
     mime-types (2.1)
     mini_portile (0.5.1)
@@ -104,6 +105,7 @@ DEPENDENCIES
   dotenv
   factory_girl
   faker
+  jwt (= 0.1.11)
   pg
   pry
   pry-nav
